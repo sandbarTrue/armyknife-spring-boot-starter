@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.cqupt.imis.tools.armyknife.config.ArmyknifeAutoConfiguration
