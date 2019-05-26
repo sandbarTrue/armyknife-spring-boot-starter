@@ -102,7 +102,6 @@ app.interfaceinvoke={
     template: "#interfaceinvoke",
     watch: {
         '$route': function () {
-            var q = this.$route.query; //获取url里面的路由查询对象"page=1&pageSize=10"==>>{page:"1",pageSize:"10"}
             this.loadData();
         }
     },
@@ -111,46 +110,9 @@ app.interfaceinvoke={
         // 此时 data 已经被 observed 了
         this.loadData();
     },
-    route: {
-        data: function(transition) {
-            var q = this.$route.query; //获取url里面的路由查询对象"page=1&pageSize=10"==>>{page:"1",pageSize:"10"}
-            this.loadData();
-        }
-    },
     data:function(){
         return {
             self:this,
-            columns: [ {
-                title: '参数名称',
-                key: 'arguName',
-                align:'center',
-                width:100,
-                render: function(row, column, index) {
-                    var arguName= row.arguName;
-                    this.invokeModel.arguName[index]=arguName
-                    return arguName;
-                }.bind(this)
-            }, {
-                title: '参数类型',
-                key: 'arguSimpleType',
-                align:'center',
-                width:100,
-                render: function(row, column, index) {
-                    var arguSimpleType= row.arguSimpleType;
-                    this.invokeModel.arguType[index]=row.arguType
-                    return arguSimpleType;
-                }.bind(this)
-            },
-                {
-                    title: '初始值',
-                    key: 'initialValue',
-                    align:'center',
-                    render: function(row, column, index) {
-                        var initialValue= row.initialValue;
-                        this.invokeModel.arguValue[index]=formatJson(initialValue)
-                        return '<p-input  type="textarea":autosize="{minRows: 2,maxRows: 15}" :value.sync="invokeModel.arguValue['+index+']"></p-input>';
-                    }.bind(this)
-                }],
             isButtonDisable:false,
             invokeModel:{
                 beanName:"",
@@ -170,6 +132,7 @@ app.interfaceinvoke={
             armyknifeInterfaceApi.getInterfaces(null,function (data) {
                     if(data){
                         this.interfaces=data;
+
                     }
                     else
                         this.interfaces=[];
@@ -194,7 +157,16 @@ app.interfaceinvoke={
                     this.invokeModel.arguValue=[]
                     this.invokeModel.arguName=[]
                     this.invokeModel.arguType=[]
+                    this.buildInVokeMode();
                 }
+            }
+        },
+       buildInVokeMode:function(){
+            for(var i=0;i<this.SelectedArgumentList.length;i++){
+                this.invokeModel.arguName[i]=this.SelectedArgumentList[i].arguName;
+                this.invokeModel.arguType[i]=this.SelectedArgumentList[i].arguType;
+                var initialValue=this.SelectedArgumentList[i].initialValue;
+                this.invokeModel.arguValue[i]=formatJson(initialValue);
             }
         },
         submit: function () {

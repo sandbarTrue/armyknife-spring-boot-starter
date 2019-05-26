@@ -38,7 +38,6 @@
 
 	<name>armyknife-spring-boot-starter</name>
 	<description>可插拔的小工具</description>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -72,13 +71,6 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.6</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.cqupt.imis.tools.armyknife</groupId>
-			<artifactId>armyknife-common</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
-		</dependency>
-
 		<dependency>
 			<groupId>com.cqupt.imis.tools.armyknife</groupId>
 			<artifactId>armyknife-db-spring-boot-starter</artifactId>
@@ -88,14 +80,6 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-log4j12</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-starter-security</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-starter-oauth2</artifactId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -103,5 +87,25 @@
 			<artifactId>armyknife-invokefulllink-spring-boot-starter</artifactId>
 			<version>0.0.4-SNAPSHOT</version>
 		</dependency>
+<!--
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+			<scope>true</scope>
+		</dependency>-->
 	</dependencies>
+	<!--<build>
+		<plugins>
+			<plugin>
+				&lt;!&ndash;热部署配置&ndash;&gt;
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					&lt;!&ndash;fork:如果没有该项配置,整个devtools不会起作用&ndash;&gt;
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>-->
 </project>

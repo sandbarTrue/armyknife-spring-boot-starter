@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,7 +35,6 @@ public class InterfaceController {
     private ApplicationContext applicationContext;
 
     @RequestMapping(ApiPath.INTERFACE_LOAD_API)
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> getInterfaces() throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
         Map<String, Object> map = applicationContext.getBeansWithAnnotation(Service.class);
@@ -108,7 +106,6 @@ public class InterfaceController {
 
 
     @PutMapping(ApiPath.INTERFACE_INVOKW_API)
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ViewResult invoke(@RequestBody InvokeModel invokeModel) throws ClassNotFoundException {
         HashMap<String, Object> resultMap = new HashMap<>();
         Object object = applicationContext.getBean(invokeModel.getBeanName());

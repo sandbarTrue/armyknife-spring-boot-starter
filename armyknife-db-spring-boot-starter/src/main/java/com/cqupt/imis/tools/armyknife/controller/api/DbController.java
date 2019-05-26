@@ -4,7 +4,6 @@ import com.cqupt.imis.tools.armyknife.common.path.ApiPath;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +28,6 @@ public class DbController {
     ApplicationContext applicationContext;
 
     @RequestMapping(ApiPath.MYSQL_LOAD_API)
-    @PreAuthorize("hasAuthority('ADMIN')")
     public Object load() {
 
         Map<String, String> result = new HashMap<String, String>();
@@ -43,7 +41,6 @@ public class DbController {
     }
 
     @RequestMapping(ApiPath.MYSQL_DOSQL_API)
-    @PreAuthorize("hasAuthority('ADMIN')")
     public Object doSql(@RequestParam("dataSource") String dataSource,
                         @RequestParam("sql") String sql) throws SQLException {
         String executeSQl = "";

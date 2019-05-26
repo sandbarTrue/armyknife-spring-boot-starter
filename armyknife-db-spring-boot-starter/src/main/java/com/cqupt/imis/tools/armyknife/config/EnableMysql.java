@@ -16,4 +16,5 @@ import java.lang.annotation.*;
 @Import({ArmyknifeDbAutoConfiguration.class})
 @ArmyknifeTools(menu = MenuModelEnum.DB_MENU,submenu = {MenuModelEnum.DB_MYSQL_MENU})
 public @interface EnableMysql {
+
 }

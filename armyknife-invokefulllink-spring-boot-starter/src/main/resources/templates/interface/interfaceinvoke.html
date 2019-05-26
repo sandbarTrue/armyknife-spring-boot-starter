@@ -14,39 +14,6 @@
     <!--element-ui-->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script>
-        (function () {
-            var _loading = [];
-            Vue.http.interceptors.push(function (request, next) {
-                if(!request.hideLoading) {
-                    var tmp = new Vue();
-                    tmp["$Message"].config({
-                        top: 350
-                    });
-                    _loading.push(tmp["$Message"].loading('正在加载中...', 0));
-                }
-                request.url = request.url + (request.url.indexOf("?") == -1 ? "?" : "&") + "v=" + new Date().getTime();
-                next(function (response) {
-                    response.data = typeof response.data == "string" ? response.data != "" ? ( new Function("return " + response.data) )() : '' : response.data;
-                    for(var i in _loading) {
-                        _loading[i]();
-                    }
-                    if(response.status == 500) {
-                        new Vue()["$Notice"].error({
-                            title: '出了点小问题',
-
-                            desc: "系统繁忙，请稍后再试"
-                        });
-                    } else if(response.status == 0) {
-                        new Vue()["$Notice"].error({
-                            title: '出了点小问题',
-                            desc: "您的网络连接失败"
-                        });
-                    }
-                });
-            });
-        })();
-    </script>
     <style>
         .pop-table.pop-table-stripe{
 
@@ -58,8 +25,6 @@
 <body>
 <template id="interfaceinvoke" style="display: none;">
     <div>
-    <br/>
-    <br/>
     <B>接口调用</B>
     <br/>
     <br/>
@@ -68,35 +33,56 @@
            接口：
         </el-col>
         <el-col :span="12">
-            <el-select v-model="invokeModel.beanName" placeholder="请选择" @on-change="initMethod()" filterable >
+            <el-select v-model="invokeModel.beanName" placeholder="请选择" @change="initMethod()" filterable >
                 <el-option v-for="item in interfaces" :value="item.beanName">{{item.beanName}}</el-option>
             </el-select>
         </el-col>
     </el-row>
+        <br>
     <el-row type="flex" justify="start" class="code-row-bg">
         <el-col :span="4">
            方法：
         </el-col>
         <el-col :span="12">
-            <el-select v-model="invokeModel.methodName" placeholder="请选择" @on-change="initArgument()" filterable>
+            <el-select v-model="invokeModel.methodName" placeholder="请选择" @change="initArgument()" filterable>
                 <el-option v-for="item in SelectedMethodList" :value="item.methodName">{{item.methodName}} 返回值：{{item.returnType}}</el-option>
             </el-select>
         </el-col>
     </el-row>
+        <br>
     <el-row type="flex" justify="start" class="code-row-bg">
         <el-col :span="4">
             请求参数：
         </el-col>
         <el-col :span="24">
-            <el-table :columns="columns" :data="SelectedArgumentList" stripe highlight-row border :content="self">
+            <el-table  :data="SelectedArgumentList" stripe highlight-row border >
+                <el-table-column
+                        label="参数名称"
+                        prop="arguName"
+                        align="center"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        label="参数类型"
+                        prop="arguType"
+                        align="center">
+                </el-table-column>
+                <el-table-column
+                        label="初始值"
+                        prop="initialValue"
+                        align="center">
+                    <template slot-scope="scope">
+                        <el-input  type="textarea":autosize="{minRows: 2,maxRows: 15}" v-model="invokeModel.arguValue[scope.$index]"></el-input>
+                    </template>
+                </el-table-column>
             </el-table>
         </el-col>
     </el-row>
+        <br>
     <el-row type="flex" justify="start" class="code-row-bg">
         <el-col :span="20" :offset="12" >
             <template v-if="isButtonDisable">
                 <el-button type="primary" @click="submit()" disabled>执行</el-button>
-
             </template>
             <template v-if="!isButtonDisable">
                 <el-button type="primary" @click="submit()" >执行</el-button>
@@ -109,7 +95,7 @@
         <el-col :span="22">
             返回值：
             <br> <br> <br>
-                   <el-input  type="textarea":autosize="{minRows: 2,maxRows: 15}" :value.sync="responseStr"></el-input>
+                   <el-input  type="textarea":autosize="{minRows: 2,maxRows: 15}" v-model="responseStr"></el-input>
                 </el-col>
         </el-row>
     <br/>

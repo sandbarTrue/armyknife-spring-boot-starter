@@ -6,81 +6,84 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="renderer" content="webkit" />
-    <script>
-        (function () {
-            var _loading = [];
-            Vue.http.interceptors.push(function (request, next) {
-                if(!request.hideLoading) {
-                    var tmp = new Vue();
-                    tmp["$Message"].config({
-                        top: 350
-                    });
-                    _loading.push(tmp["$Message"].loading('正在加载中...', 0));
-                }
-                request.url = request.url + (request.url.indexOf("?") == -1 ? "?" : "&") + "v=" + new Date().getTime();
-                next(function (response) {
-                    response.data = typeof response.data == "string" ? response.data != "" ? ( new Function("return " + response.data) )() : '' : response.data;
-                    for(var i in _loading) {
-                        _loading[i]();
-                    }
-                    if(response.status == 500) {
-                        new Vue()["$Notice"].error({
-                            title: '出了点小问题',
-
-                            desc: "系统繁忙，请稍后再试"
-                        });
-                    } else if(response.status == 0) {
-                        new Vue()["$Notice"].error({
-                            title: '出了点小问题',
-                            desc: "您的网络连接失败"
-                        });
-                    }
-                });
-            });
-        })();
-    </script>
-
-
+    <!--vue-->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/vue-resource/dist/vue-resource.min.js"></script>
+    <!--element-ui-->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <body>
 
 <style>
-    .pop-table.pop-table-stripe{
-
-        height: auto;
+    .el-main {
+        line-height: 160px;
+        padding-top: 0px;
     }
 </style>
+<div>
 <template id="menu" style="display: none;">
-    <p-row type="flex" justify="start" class="code-row-bg">
-        <p-col>
-    <p-menu :theme="theme2" @on-select="select">
+    <!--<el-row type="flex" justify="start" class="code-row-bg">
+        <el-col :span="4">
+    <el-menu class="el-menu-vertical-demo"  background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" @select="select">
         <div  v-for="menuModel in menuModelList">
             <template v-if="menuModel.subMenuModelList === null">
-                <p-menu-item :key="menuModel.link" >
-                    <p-icon type="ios-paper"></p-icon>
+                <el-menu-item :index="menuModel.link" >
+                    <el-icon type="ios-paper"></el-icon>
                     {{menuModel.name}}
-                </p-menu-item>
+                </el-menu-item>
             </template>
             <template v-else>
-                <p-submenu :key="menuModel.name">
+                <el-submenu :index="menuModel.name">
                     <template slot="title">
-                        <p-icon type="ios-paper"></p-icon>
+                        <el-icon type="ios-paper"></el-icon>
                         {{menuModel.name}}
                     </template>
                     <div v-for="subMenuModel in menuModel.subMenuModelList">
-                        <p-menu-item :key="subMenuModel.link" >{{subMenuModel.name}}</p-menu-item>
+                        <el-menu-item :index="subMenuModel.link" >{{subMenuModel.name}}</el-menu-item>
                     </div>
-                </p-submenu>
+                </el-submenu>
             </template>
         </div>
-    </p-menu>
-        </p-col>
-        <p-col span="10">
-            <iframe id="detailFrame" src="{{menuLink}}"  width="1000" height="1000" style="margin-bottom: 0px;margin-left: 100px;"></iframe>
-        </p-col>
-    </p-row>
-
+    </el-menu>
+        </el-col>
+        <el-col>
+            <iframe id="detailFrame" :src="menuLink"  width="90%"  height="1000" scrolling="true" frameborder="0" style="margin-bottom: 0px;margin-left: 100px;"></iframe>
+        </el-col>
+    </el-row>-->
+    <el-container>
+        <el-container>
+            <el-aside width="20%">
+                <el-menu class="el-menu-vertical-demo"  background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" @select="select">
+                    <div  v-for="menuModel in menuModelList">
+                        <template v-if="menuModel.subMenuModelList === null">
+                            <el-menu-item :index="menuModel.link" >
+                                <el-icon type="ios-paper"></el-icon>
+                                {{menuModel.name}}
+                            </el-menu-item>
+                        </template>
+                        <template v-else>
+                            <el-submenu :index="menuModel.name">
+                                <template slot="title">
+                                    <el-icon type="ios-paper"></el-icon>
+                                    {{menuModel.name}}
+                                </template>
+                                <div v-for="subMenuModel in menuModel.subMenuModelList">
+                                    <el-menu-item :index="subMenuModel.link" >{{subMenuModel.name}}</el-menu-item>
+                                </div>
+                            </el-submenu>
+                        </template>
+                    </div>
+                </el-menu>
+            </el-aside>
+            <el-main>
+                <iframe id="detailFrame" :src="menuLink"  width="90%"  height="1000" scrolling="true" frameborder="0" style="margin-top: 0px;"></iframe>
+            </el-main>
+        </el-container>
+    </el-container>
 </template>
+</div>
 <div id="app">
     <router-view></router-view>
 </div>
@@ -88,5 +91,6 @@
 <script src="/js/armyknife/armyknife-components.js" type="text/javascript"></script>
 <script src="/js/armyknife/armyknife-api.js" type="text/javascript"></script>
 <script src="/js/armyknife/menu-router.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vue-main.js"></script>
 </body>
 </html>

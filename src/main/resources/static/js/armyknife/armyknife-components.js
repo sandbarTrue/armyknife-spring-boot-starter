@@ -41,13 +41,10 @@ isJSON= function (str) {
 var app = {};
 app.menu={
     template: "#menu",
-    route: {
-        data: function(transition) {
-         /*   var q = this.$route.fullPath;
-            this.menuKey=q*/
-         this.loadData();
-
-        }
+    created () {
+        // 组件创建完后获取数据，
+        // 此时 data 已经被 observed 了
+        this.loadData();
     },
     data:function(){
         return {

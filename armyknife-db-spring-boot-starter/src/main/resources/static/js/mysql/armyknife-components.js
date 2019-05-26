@@ -34,11 +34,15 @@ isJSON = function (str) {
 }
 var list = {
     template: "#list",
-    route: {
-        data: function (transition) {
-            var q = this.$route.query; //获取url里面的路由查询对象"page=1&pageSize=10"==>>{page:"1",pageSize:"10"}
-            //this.loadData();
+    watch: {
+        '$route': function () {
+            this.loadData();
         }
+    },
+    created () {
+        // 组件创建完后获取数据，
+        // 此时 data 已经被 observed 了
+        this.loadData();
     },
     data: function () {
         return {

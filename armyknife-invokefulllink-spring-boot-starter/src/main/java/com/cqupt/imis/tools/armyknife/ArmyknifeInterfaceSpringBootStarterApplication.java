@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 /**
  * @author zhoujun
  */
-@SpringBootApplication
+//@SpringBootApplication
 public class ArmyknifeInterfaceSpringBootStarterApplication implements CommandLineRunner {
 
     @Autowired

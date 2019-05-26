@@ -6,11 +6,13 @@ import org.springframework.boot.SpringApplication;
 /**
  * @author zhoujun
  */
-//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-//@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+/*@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+@EnableMysql
+@EnableInvokeInterface*/
 public class ArmyknifeSpringBootStarterApplication implements CommandLineRunner{
-
     public static void main(String[] args) {
+
         SpringApplication.run(ArmyknifeSpringBootStarterApplication.class, args);
 
     }
